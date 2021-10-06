@@ -1,0 +1,110 @@
+<html>
+  <head>
+    <!--script src="https://cdn.jsdelivr.net/npm/chart.js"></script-->
+    <!--script src="https://d3js.org/d3.v7.min.js"></script-->
+    <script src="d3.js"></script>
+    <script src="chart.js"></script>
+  </head>
+
+  <body>
+    <h1>Demo ChartJS</h1>
+    <div>
+      <div>
+        <canvas id="myChart"></canvas>
+      </div>
+      <div>
+        <canvas id="myBarChart"></canvas>
+      </div>
+    </div>
+    <script>
+      let filename =
+        "https://raw.githubusercontent.com/binhdv92/SAS/main/HistoricalObserved.csv";
+      d3.csv(filename).then(function (loadedData) {
+        //console.log(loadedData);
+        let data = [];
+        let labels = [];
+        for (let i = 0; i < loadedData.length; i++) {
+          //console.log(loadedData[i]);
+          let year = loadedData[i].year;
+          labels.push(year);
+
+          let meanTemp = loadedData[i].tmax;
+          data.push(meanTemp);
+        }
+        //console.log(data);
+        //console.log(labels);
+        const config = {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: data,
+                label: "My First dataset",
+                backgroundColor: "rgb(255, 99, 132)",
+                borderColor: "rgb(255, 99, 132)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              title: {
+                display: true,
+                text: "Chart.js Line Chart",
+              },
+            },
+          },
+        };
+        var myChart = new Chart(document.getElementById("myChart"), config);
+
+        //barchart
+        const config2 = {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: data,
+                label: "My Bar Chart",
+                backgroundColor: "rgb(255, 99, 132)",
+                borderColor: "rgb(255, 99, 132)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              title: {
+                display: true,
+                text: "Chart.js Line Chart",
+              },
+            },
+            tooltips: {
+              displayColors: false,
+              backgroundColor: "rgb(150,50,0)",
+              titleFontColor: "rgb(255,255,255)",
+              callbacks: {
+                title: function (item, everything) {
+                  return;
+                },
+                label: function (item, everything) {
+                  console.log(item);
+                  console.log(everything);
+                  return label;
+                },
+              },
+            },
+          },
+        };
+        var myChart = new Chart(document.getElementById("myBarChart"), config2);
+      });
+    </script>
+  </body>
+</html>
